@@ -36,14 +36,14 @@ class ZKTeco
      * @param string $ip Device IP address.
      * @param int $port Port number. Default: 4370.
      */
-    public function __construct(string $ip, int $port = 4370)
+    public function __construct(string $ip, int $port = 4370, $timeout = 30)
     {
         $this->_ip = $ip;
         $this->_port = $port;
 
         $this->_zkclient = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
 
-        $timeout = ['sec' => 60, 'usec' => 500000];
+        $timeout = ['sec' => $timeout, 'usec' => 500000];
         socket_set_option($this->_zkclient, SOL_SOCKET, SO_RCVTIMEO, $timeout);
     }
 
