@@ -19,6 +19,8 @@ class SerialNumber
         $command = Util::CMD_DEVICE;
         $command_string = '~SerialNumber';
 
-        return $self->_command($command, $command_string);
+        $data = $self->_command($command, $command_string);
+
+        return Util::trimDeviceData($data, $command_string);
     }
 }

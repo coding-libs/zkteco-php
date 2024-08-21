@@ -19,7 +19,9 @@ class Device
         $command = Util::CMD_DEVICE;
         $command_string = '~DeviceName';
 
-        return $self->_command($command, $command_string);
+        $data = $self->_command($command, $command_string);
+
+        return Util::trimDeviceData($data, $command_string);
     }
 
     /**
@@ -163,7 +165,7 @@ class Device
         return $self->_command($command, $command_string);
     }
 
-    public static function info(ZKTeco $self)
+    public static function memoryInfo(ZKTeco $self)
     {
         $self->_section = __METHOD__;
 
@@ -176,7 +178,7 @@ class Device
         $logCounts = unpack('I', substr($data, 32, 4))[1];
         $logCapacity = unpack('I', substr($data, 64, 4))[1];
 
-        return [
+        return (object)[
             'adminCounts' => $adminCounts,
             'userCounts' => $userCounts,
             'userCapacity' => $userCapacity,

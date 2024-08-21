@@ -18,9 +18,10 @@ class Platform
 
         $command = Util::CMD_DEVICE;
         $command_string = '~Platform';
-        $command_string = '~Manufactur';
 
-        return $self->_command($command, $command_string);
+        $data = $self->_command($command, $command_string);
+
+        return Util::trimDeviceData($data, $command_string);
     }
 
     /**
@@ -36,6 +37,9 @@ class Platform
         $command = Util::CMD_DEVICE;
         $command_string = '~ZKFPVersion';
 
-        return $self->_command($command, $command_string);
+        $data = $self->_command($command, $command_string);
+
+        return Util::trimDeviceData($data, $command_string);
+
     }
 }

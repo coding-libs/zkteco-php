@@ -292,6 +292,18 @@ class ZKTeco
      * @param array $fingerprint Array of fingerprint binary data.
      * @return bool|mixed True if fingerprint data was successfully set.
      */
+    public function getFingerprint(int $uid)
+    {
+        return Fingerprint::get($this, $uid);
+    }
+
+    /**
+     * Sets a fingerprint for a specified user on the device.
+     *
+     * @param int $uid Unique ID of the user.
+     * @param array $fingerprint Array of fingerprint binary data.
+     * @return bool|mixed True if fingerprint data was successfully set.
+     */
     public function setFingerprint(int $uid, array $fingerprint)
     {
         return Fingerprint::set($this, $uid, $fingerprint);
@@ -424,13 +436,13 @@ class ZKTeco
     }
 
     /**
-     * Captures an image from the device.
+     * Memory Info from the device.
      *
      * @return bool|string Captured image data in binary format, or false if the capture failed.
      */
-    public function getDeviceInfo()
+    public function getMemoryInfo()
     {
-        return Device::info($this);
+        return Device::memoryInfo($this);
     }
 
 
