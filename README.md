@@ -1,30 +1,58 @@
-# README #
-
-This README would normally document whatever steps are necessary to get your application up and running.
-
-### What is this repository for? ###
+<p align="center"><a href="https://www.zkteco.com/" target="_blank"><img src="https://raw.githubusercontent.com/coding-libs/zkteco-js/master/logo.jpg" width="400" alt="Zkteco Logo"></a></p>
 
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+## <span style="color:red;">Warning</span>
 
-### How do I get set up? ###
+**⚠️ This repository is not recommended for use in production. ⚠️**
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+This repository is currently in development and may contain bugs or incomplete features. Use at your own risk and do not deploy to a production environment.
 
-### Contribution guidelines ###
+# About zkteco-php
+The zkteco-php library provides a robust solution for php/laravel developers to interface with ZK BioMetric Fingerprint Attendance Devices. Its user-friendly API allows seamless extraction of data, such as registered users, logs, and device versions. Developers can also add users, retrieve real-time logs, and clear attendance records. Using a socket connection, the library ensures fast and reliable data exchange. Whether creating an attendance system or a time-and-attendance management application, zkteco-js is the essential tool for integrating biometric devices efficiently.
 
-* Writing tests
-* Code review
-* Other guidelines
+### Installation
 
-### Who do I talk to? ###
+```bash
+composer require coding-libs/zkteco-php
+```
 
-* Repo owner or admin
-* Other community or team contact
+### Usage Example
+
+```php
+use CodingLibs\ZktecoPhp\Libs\Zkteco;
+
+$zktecoLib = new Zkteco('192.168.1.1');
+$zktecoLib->connect();
+
+$zktecoLib->deviceName(); // "F22/ID
+$zktecoLib->serialNumber(); // "BOCK201261276
+$zktecoLib->pinWidth(); // "14
+$zktecoLib->faceFunctionOn(); // "0
+$zktecoLib->platform(); // "ZLM60_TFT
+$zktecoLib->fmVersion(); // "10
+$zktecoLib->ssr(); // "1
+$zktecoLib->version(); // "Ver 6.60 Sep 19 2019
+$zktecoLib->workCode(); // "0
+$zktecoLib->getFingerprint(1); 
+$zktecoLib->getUsers(); // users
+$zktecoLib->getAttendances(); // attendances logs
+$zktecoLib->getTime(); // device time
+```
+
+## Contributing
+
+Please see [CONTRIBUTING](https://github.com/coding-libs/zkteco-php/graphs/contributors) for details.
+## Security
+
+If you've found a bug regarding security please mail [codinglibs4u@gmail.com](mailto:codinglibs4u@gmail.com) instead of using the issue tracker.
+
+## Alternatives
+
+- [adrobinoga/zk-protocol](https://github.com/adrobinoga/zk-protocol)
+- [dnaextrim/python_zklib](https://github.com/dnaextrim/python_zklib)
+- [caobo171/node-zklib](https://github.com/caobo171/node-zklib)
+
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
