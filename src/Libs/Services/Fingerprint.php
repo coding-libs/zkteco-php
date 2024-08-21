@@ -60,12 +60,12 @@ class Fingerprint
     /**
      * Remove fingerprint data for a specific user from the ZKTecoPhp device.
      *
-     * @param ZKTecoLib $self The instance of the ZKTecoLib class.
+     * @param ZKTeco $self The instance of the ZKTeco class.
      * @param int $uid Unique Employee ID in ZK device.
      * @param array $data Fingers ID array (0-9).
      * @return int Count of deleted fingerprints.
      */
-    static public function remove(ZKTecoLib $self, $uid, array $data)
+    static public function remove(ZKTeco $self, $uid, array $data)
     {
         $self->_section = __METHOD__;
 
@@ -83,14 +83,14 @@ class Fingerprint
     }
 
     /**
-     * Retrieve fingerprint data for a specific user and finger from the ZKTecoLib device.
+     * Retrieve fingerprint data for a specific user and finger from the ZKTeco device.
      *
-     * @param ZKTecoLib $self The instance of the ZKTecoLib class.
+     * @param ZKTeco $self The instance of the ZKTeco class.
      * @param int $uid Unique Employee ID in ZK device.
      * @param int $finger Finger ID (0-9).
      * @return array An array containing the size of the fingerprint data and the actual data.
      */
-    private function _getFinger(ZKTecoLib $self, $uid, $finger)
+    private function _getFinger(ZKTeco $self, $uid, $finger)
     {
         $command = Util::CMD_USER_TEMP_RRQ;
         $byte1 = chr((int)($uid % 256));
@@ -123,13 +123,13 @@ class Fingerprint
     }
 
     /**
-     * Set fingerprint data on the ZKTecoLib device.
+     * Set fingerprint data on the ZKTeco device.
      *
-     * @param ZKTecoLib $self The instance of the ZKTecoLib class.
+     * @param ZKTeco $self The instance of the ZKTeco class.
      * @param string $data Binary fingerprint data item.
      * @return bool|mixed Returns true if the fingerprint data is set successfully, false otherwise.
      */
-    private function _setFinger(ZKTecoLib $self, $data)
+    private function _setFinger(ZKTeco $self, $data)
     {
         $command = Util::CMD_USER_TEMP_WRQ;
         $command_string = $data;
@@ -138,14 +138,14 @@ class Fingerprint
     }
 
     /**
-     * Remove fingerprint data from the ZKTecoLib device.
+     * Remove fingerprint data from the ZKTeco device.
      *
-     * @param ZKTecoLib $self The instance of the ZKTecoLib class.
+     * @param ZKTeco $self The instance of the ZKTeco class.
      * @param int $uid Unique Employee ID in ZK device.
      * @param int $finger Finger ID (0-9).
      * @return bool Returns true if the fingerprint data is removed successfully, false otherwise.
      */
-    private function _removeFinger(ZKTecoLib $self, $uid, $finger)
+    private function _removeFinger(ZKTeco $self, $uid, $finger)
     {
         $command = Util::CMD_DELETE_USER_TEMP;
         $byte1 = chr((int)($uid % 256));
@@ -158,14 +158,14 @@ class Fingerprint
     }
 
     /**
-     * Check if fingerprint data exists for a specific user and finger on the ZKTecoLib device.
+     * Check if fingerprint data exists for a specific user and finger on the ZKTeco device.
      *
-     * @param ZKTecoLib $self The instance of the ZKTecoLib class.
+     * @param ZKTeco $self The instance of the ZKTeco class.
      * @param int $uid Unique Employee ID in ZK device.
      * @param int $finger Finger ID (0-9).
      * @return bool Returns true if fingerprint data exists, false otherwise.
      */
-    private function _checkFinger(ZKTecoLib $self, $uid, $finger)
+    private function _checkFinger(ZKTeco $self, $uid, $finger)
     {
         $fingerPrint = new Fingerprint();
         $res = $fingerPrint->_getFinger($self, $uid, $finger);

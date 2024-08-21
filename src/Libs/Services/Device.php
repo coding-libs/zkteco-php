@@ -57,10 +57,10 @@ class Device
     /**
      * Power off the device.
      *
-     * @param ZKTeco $self The instance of the ZKTecoLib class.
+     * @param ZKTeco $self The instance of the ZKTeco class.
      * @return bool|mixed Returns true if the device is powered off successfully, false otherwise.
      */
-    public static function powerOff(ZKTecoLib $self)
+    public static function powerOff(ZKTeco $self)
     {
         $self->_section = __METHOD__;
 
@@ -72,10 +72,10 @@ class Device
     /**
      * Restart the device.
      *
-     * @param ZKTecoLib $self The instance of the ZKTecoLib class.
+     * @param ZKTeco $self The instance of the ZKTeco class.
      * @return bool|mixed Returns true if the device is restarted successfully, false otherwise.
      */
-    public static function restart(ZKTecoLib $self)
+    public static function restart(ZKTeco $self)
     {
         $self->_section = __METHOD__;
 
@@ -87,10 +87,10 @@ class Device
     /**
      * Sleep the device.
      *
-     * @param ZKTecoLib $self The instance of the ZKTecoLib class.
+     * @param ZKTeco $self The instance of the ZKTeco class.
      * @return bool|mixed Returns true if the device is put to sleep successfully, false otherwise.
      */
-    public static function sleep(ZKTecoLib $self)
+    public static function sleep(ZKTeco $self)
     {
         $self->_section = __METHOD__;
 
@@ -102,10 +102,10 @@ class Device
     /**
      * Resume the device from sleep.
      *
-     * @param ZKTecoLib $self The instance of the ZKTecoLib class.
+     * @param ZKTeco $self The instance of the ZKTeco class.
      * @return bool|mixed Returns true if the device is resumed successfully, false otherwise.
      */
-    public static function resume(ZKTecoLib $self)
+    public static function resume(ZKTeco $self)
     {
         $self->_section = __METHOD__;
 
@@ -117,10 +117,10 @@ class Device
     /**
      * Test the device's voice.
      *
-     * @param ZKTecoLib $self The instance of the ZKTecoLib class.
+     * @param ZKTeco $self The instance of the ZKTeco class.
      * @return bool|mixed Returns true if the device's voice test is successful, false otherwise.
      */
-    public static function testVoice(ZKTecoLib $self)
+    public static function testVoice(ZKTeco $self)
     {
         $self->_section = __METHOD__;
 
@@ -132,10 +132,10 @@ class Device
     /**
      * Clear the device's LCD screen.
      *
-     * @param ZKTecoLib $self The instance of the ZKTecoLib class.
+     * @param ZKTeco $self The instance of the ZKTeco class.
      * @return bool|mixed Returns true if the LCD screen is cleared successfully, false otherwise.
      */
-    public static function clearLCD(ZKTecoLib $self)
+    public static function clearLCD(ZKTeco $self)
     {
         $self->_section = __METHOD__;
 
@@ -146,12 +146,12 @@ class Device
     /**
      * Write text into the device's LCD screen.
      *
-     * @param ZKTecoLib $self The instance of the ZKTecoLib class.
+     * @param ZKTeco $self The instance of the ZKTeco class.
      * @param int $rank Line number of text.
      * @param string $text Text which will be displayed on the LCD screen.
      * @return bool|mixed Returns true if the text is written to the LCD successfully, false otherwise.
      */
-    public static function writeLCD(ZKTecoLib $self, $rank, $text)
+    public static function writeLCD(ZKTeco $self, $rank, $text)
     {
         $self->_section = __METHOD__;
 
@@ -163,7 +163,7 @@ class Device
         return $self->_command($command, $command_string);
     }
 
-    public static function info(ZKTecoLib $self)
+    public static function info(ZKTeco $self)
     {
         $self->_section = __METHOD__;
 

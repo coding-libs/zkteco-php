@@ -347,7 +347,7 @@ class Util
    * @param bool $first if 'true' don't remove first 4 bytes for first row
    * @return string
    */
-  static public function recData(ZKTecoLib $self, $maxErrors = 10, $first = true)
+  static public function recData(ZKTeco $self, $maxErrors = 10, $first = true)
   {
     $data = '';
     $bytes = self::getSize($self);
@@ -394,21 +394,21 @@ class Util
   }
 
   /**
-   * @param ZKTecoLib $self
+   * @param ZKTeco $self
    * @param int $received
    * @param int $bytes
    */
-  static private function logReceived(ZKTecoLib $self, $received, $bytes)
+  static private function logReceived(ZKTeco $self, $received, $bytes)
   {
     self::logger($self, 'Received: ' . $received . ' of ' . $bytes . ' bytes');
   }
 
   /**
    * Write log
-   * @param ZKTecoLib $self
+   * @param ZKTeco $self
    * @param string $str
    */
-  static private function logger(ZKTecoLib $self, $str)
+  static private function logger(ZKTeco $self, $str)
   {
     if (defined('ZK_LIB_LOG')) {
       //use constant if defined

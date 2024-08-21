@@ -26,10 +26,10 @@ class Platform
     /**
      * Get the version of the platform on the ZKTecoPhp device.
      *
-     * @param ZKTecoLib $self The instance of the ZKTecoLib class.
+     * @param ZKTeco $self The instance of the ZKTeco class.
      * @return bool|mixed Returns the platform version if successful, false otherwise.
      */
-    static public function getVersion(ZKTecoLib $self)
+    static public function getVersion(ZKTeco $self)
     {
         $self->_section = __METHOD__;
 

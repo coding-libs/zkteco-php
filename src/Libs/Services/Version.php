@@ -2,27 +2,26 @@
 
 namespace CodingLibs\ZktecoPhp\Libs\Services;
 
-use CodingLibs\ZktecoPhp\Libs\Services\Util;
-use CodingLibs\ZktecoPhp\Libs\ZKTeco;
+use CodingLibs\ZktecoPhp\Libs\Zkteco;
 
 class Version
 {
   /**
-   * Retrieves the ZKTecoLib device version information.
+   * Retrieves the ZKTeco device version information.
    *
-   * This method sends a version command to the ZKTecoLib device and retrieves the response containing
+   * This method sends a version command to the ZKTeco device and retrieves the response containing
    * the device's firmware version.
    *
-   * @param ZKTecoLib $self An instance of the ZKTecoLib class.
+   * @param Zkteco $self An instance of the ZKTeco class.
    * @return bool|mixed The device version string on success, false on failure.
    */
-  static public function get(ZKTecoLib $self)
+  static public function get(Zkteco $self)
   {
     $self->_section = __METHOD__; // Set the current section for internal tracking (optional)
 
     $command = Util::CMD_VERSION; // Version information command code
     $command_string = ''; // Empty command string (no additional data needed)
 
-    return $self->_command($command, $command_string); // Use internal ZKTecoLib method to send the command
+    return $self->_command($command, $command_string); // Use internal ZKTeco method to send the command
   }
 }

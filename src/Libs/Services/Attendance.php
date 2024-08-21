@@ -80,7 +80,7 @@ class Attendance
      * @param ZKTeco $self An instance of the ZKTecoPhp class.
      * @return bool|mixed True on success, error message on failure.
      */
-    static public function clear(ZKTecoLib $self)
+    static public function clear(ZKTeco $self)
     {
         $self->_section = __METHOD__; // Set the current section for internal tracking (optional)
 
