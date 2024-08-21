@@ -47,7 +47,7 @@ class User
             str_pad($userid, 9, chr(0)),
             str_repeat(chr(0), 15)
         ]);
-//        die($command_string);
+
         return $self->_command($command, $command_string);
     }
 
@@ -91,7 +91,7 @@ class User
                 $userid = explode(chr(0), $userid, 2);
                 $userid = $userid[0];
                 $name = explode(chr(0), $name, 3);
-                $name = utf8_encode($name[0]);
+                $name = mb_convert_encoding($name[0], 'UTF-8', 'ISO-8859-1');
                 $cardno = str_pad($cardno, 11, '0', STR_PAD_LEFT);
 
                 if ($name == '') {

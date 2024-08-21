@@ -119,20 +119,20 @@ class Util
      */
     static public function decodeTime($t)
     {
-        $second = $t % 60;
-        $t = $t / 60;
+        $second = floor($t % 60);
+        $t = floor($t / 60);
 
-        $minute = $t % 60;
-        $t = $t / 60;
+        $minute = floor($t % 60);
+        $t = floor($t / 60);
 
-        $hour = $t % 24;
-        $t = $t / 24;
+        $hour = floor($t % 24);
+        $t = floor($t / 24);
 
-        $day = $t % 31 + 1;
-        $t = $t / 31;
+        $day = floor($t % 31 + 1);
+        $t = floor($t / 31);
 
-        $month = $t % 12 + 1;
-        $t = $t / 12;
+        $month = floor($t % 12 + 1);
+        $t = floor($t / 12);
 
         $year = floor($t + 2000);
 
