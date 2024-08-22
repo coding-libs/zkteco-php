@@ -2,6 +2,7 @@
 
 namespace CodingLibs\ZktecoPhp\Libs;
 
+use CodingLibs\ZktecoPhp\Libs\Services\Ping;
 use ErrorException;
 use Exception;
 use CodingLibs\ZktecoPhp\Libs\Services\Attendance;
@@ -438,12 +439,20 @@ class ZKTeco
     /**
      * Memory Info from the device.
      *
-     * @return bool|string Captured image data in binary format, or false if the capture failed.
+     * @return bool|string Captured memory data
      */
     public function getMemoryInfo()
     {
         return Device::memoryInfo($this);
     }
 
-
+    /**
+     * Memory Info from the device.
+     *
+     * @return bool|string Captured ip existence.
+     */
+    public function testPing()
+    {
+        return Ping::testPing($this->_ip);
+    }
 }
