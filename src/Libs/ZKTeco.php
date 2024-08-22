@@ -2,6 +2,7 @@
 
 namespace CodingLibs\ZktecoPhp\Libs;
 
+use CodingLibs\ZktecoPhp\Exceptions\PingException;
 use CodingLibs\ZktecoPhp\Libs\Services\Ping;
 use ErrorException;
 use Exception;
@@ -94,8 +95,9 @@ class ZKTeco
      *
      * @return bool True if successfully connected, otherwise false.
      */
-    public function connect(): bool
+    public function connect($throw = true): bool
     {
+        $this->testPing($throw);
         return Connect::connect($this);
     }
 
@@ -106,7 +108,11 @@ class ZKTeco
      */
     public function disconnect(): bool
     {
-        return Connect::disconnect($this);
+        if ($this->testPing(false)) {
+            return Connect::disconnect($this);
+        }
+
+        return true;
     }
 
     /**
@@ -441,8 +447,9 @@ class ZKTeco
      *
      * @return bool|string Captured memory data
      */
-    public function getMemoryInfo()
+    public function getMemoryInfo($omitPing = true)
     {
+        $this->testPing($omitPing);
         return Device::memoryInfo($this);
     }
 
@@ -451,8 +458,14 @@ class ZKTeco
      *
      * @return bool|string Captured ip existence.
      */
-    public function testPing()
+    public function testPing($throw = true)
     {
-        return Ping::testPing($this->_ip);
+        $ping = Ping::testPing($this->_ip);
+        if (!$ping && $throw) {
+            throw new PingException("can't reach device ($this->_ip)");
+        }
+
+        return $ping;
     }
+
 }
