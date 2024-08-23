@@ -2,6 +2,7 @@
 
 namespace CodingLibs\ZktecoPhp\Libs\Services;
 
+use CodingLibs\ZktecoPhp\Exceptions\PingException;
 use CodingLibs\ZktecoPhp\Libs\ZKTeco;
 
 class Util
@@ -72,6 +73,8 @@ class Util
 
     const ATT_TYPE_CHECK_IN = 0;
     const ATT_TYPE_CHECK_OUT = 1;
+    const ATT_TYPE_BREAK_IN = 2;
+    const ATT_TYPE_BREAK_OUT = 3;
     const ATT_TYPE_OVERTIME_IN = 4;
     const ATT_TYPE_OVERTIME_OUT = 5;
 
@@ -337,6 +340,12 @@ class Util
             case self::ATT_TYPE_CHECK_OUT:
                 $ret = 'Check-out';
                 break;
+            case self::ATT_TYPE_BREAK_IN:
+                $ret = 'Break-in';
+                break;
+            case self::ATT_TYPE_BREAK_OUT:
+                $ret = 'Break-out';
+                break;
             case self::ATT_TYPE_OVERTIME_IN:
                 $ret = 'Overtime-in';
                 break;
@@ -434,5 +443,35 @@ class Util
         $row .= PHP_EOL;
 
         file_put_contents($log, $row, FILE_APPEND);
+    }
+
+    /**
+     * Ping to device
+     * @param $ip
+     * @return bool
+     */
+    static public function ping($ip, $throw = false)
+    {
+
+        // Determine the operating system
+        $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+
+        // Ping parameters as function of OS
+        $pingCommand = $isWindows ? "ping -n 1 " . escapeshellarg($ip) : "ping -c 1 -W 5 " . escapeshellarg($ip);
+
+        // Execute the ping command
+        $output = null;
+        $resultCode = null;
+
+        exec($pingCommand, $output, $resultCode);
+
+        // Return true if ping was successful (result code is 0)
+        $result = $resultCode === 0;
+
+        if(!$result && $throw){
+            throw new PingException("can't reach device ($ip)");
+        }
+
+        return $result;
     }
 }

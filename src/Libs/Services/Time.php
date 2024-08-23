@@ -15,6 +15,9 @@ class Time
      */
     static public function set(ZKTeco $self, $t)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
         $command = Util::CMD_SET_TIME;
@@ -31,6 +34,9 @@ class Time
      */
     static public function get(ZKTeco $self)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
         $command = Util::CMD_GET_TIME;

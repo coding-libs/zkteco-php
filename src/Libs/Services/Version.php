@@ -17,6 +17,9 @@ class Version
      */
     static public function get(Zkteco $self)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__; // Set the current section for internal tracking (optional)
 
         $command = Util::CMD_VERSION; // Version information command code

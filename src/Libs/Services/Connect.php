@@ -2,7 +2,6 @@
 
 namespace CodingLibs\ZktecoPhp\Libs\Services;
 
-use CodingLibs\ZktecoPhp\Libs\Services\Util;
 use CodingLibs\ZktecoPhp\Libs\ZKTeco;
 use ErrorException;
 use Exception;
@@ -17,6 +16,9 @@ class Connect
      */
     static public function connect(ZKTeco $self)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         // Set the current section of the code.
         $self->_section = __METHOD__;
 
@@ -76,6 +78,10 @@ class Connect
      */
     static public function disconnect(ZKTeco $self)
     {
+        if(!Util::ping($self->_ip)){
+            return true;
+        }
+
         // Set the current section of the code.
         $self->_section = __METHOD__;
 

@@ -31,6 +31,7 @@ class ZKTeco
     public $_data_recv = '';
     public $_session_id = 0;
     public $_section = '';
+    public $_requiredPing = false;
 
     /**
      * ZKLib constructor.
@@ -38,10 +39,11 @@ class ZKTeco
      * @param string $ip Device IP address.
      * @param int $port Port number. Default: 4370.
      */
-    public function __construct(string $ip, int $port = 4370, $timeout = 30)
+    public function __construct(string $ip, int $port = 4370, $shouldPing = true, $timeout = 30)
     {
         $this->_ip = $ip;
         $this->_port = $port;
+        $this->_requiredPing = !!$shouldPing;
 
         $this->_zkclient = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
 
@@ -95,9 +97,8 @@ class ZKTeco
      *
      * @return bool True if successfully connected, otherwise false.
      */
-    public function connect($throw = true): bool
+    public function connect(): bool
     {
-        $this->testPing($throw);
         return Connect::connect($this);
     }
 
@@ -108,11 +109,7 @@ class ZKTeco
      */
     public function disconnect(): bool
     {
-        if ($this->testPing(false)) {
-            return Connect::disconnect($this);
-        }
-
-        return true;
+        return Connect::disconnect($this);
     }
 
     /**
@@ -447,9 +444,8 @@ class ZKTeco
      *
      * @return bool|string Captured memory data
      */
-    public function getMemoryInfo($omitPing = true)
+    public function getMemoryInfo()
     {
-        $this->testPing($omitPing);
         return Device::memoryInfo($this);
     }
 
@@ -458,14 +454,9 @@ class ZKTeco
      *
      * @return bool|string Captured ip existence.
      */
-    public function testPing($throw = true)
+    public function testPing($throw = false)
     {
-        $ping = Ping::testPing($this->_ip);
-        if (!$ping && $throw) {
-            throw new PingException("can't reach device ($this->_ip)");
-        }
-
-        return $ping;
+        return Util::ping($this->_ip, $throw);
     }
 
 }

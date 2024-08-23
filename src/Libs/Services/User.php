@@ -2,6 +2,7 @@
 
 namespace CodingLibs\ZktecoPhp\Libs\Services;
 
+use CodingLibs\ZktecoPhp\Exceptions\InvalidParamException;
 use CodingLibs\ZktecoPhp\Libs\ZKTeco;
 
 class User
@@ -18,17 +19,22 @@ class User
      */
     static public function set(ZKTeco $self, $uid, $userid, $name, $password, $role = Util::LEVEL_USER, $cardno = 0)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
-        if (
-            (int)$uid === 0 ||
-            (int)$uid > Util::USHRT_MAX ||
-            strlen($userid) > 9 ||
-            strlen($name) > 24 ||
-            strlen($password) > 8 ||
-            strlen($cardno) > 10
-        ) {
-            return false;
+        $userid = trim($userid);
+        $name = substr(trim($name), 24);
+        $password = substr(trim($password), 8);
+        $cardno = substr(trim($cardno), 10);
+
+        if((int)$uid === 0 || (int)$uid > Util::USHRT_MAX){
+            throw new InvalidParamException("UID should be between 1 and ".Util::USHRT_MAX);
+        }
+
+        if(strlen($userid) > 9){
+            throw new InvalidParamException("UserId length should not be greater than 9 chars");
         }
 
         $command = Util::CMD_SET_USER;
@@ -57,6 +63,9 @@ class User
      */
     static public function get(ZKTeco $self)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
         $command = Util::CMD_USER_TEMP_RRQ;
@@ -120,6 +129,9 @@ class User
      */
     static public function clear(ZKTeco $self)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
         $command = Util::CMD_CLEAR_DATA;
@@ -134,6 +146,9 @@ class User
      */
     static public function clearAdmin(ZKTeco $self)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
         $command = Util::CMD_CLEAR_ADMIN;
@@ -149,6 +164,9 @@ class User
      */
     static public function remove(ZKTeco $self, $uid)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
         $command = Util::CMD_DELETE_USER;

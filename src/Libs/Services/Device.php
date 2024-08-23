@@ -14,6 +14,9 @@ class Device
      */
     static public function name(ZKTeco $self)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
         $command = Util::CMD_DEVICE;
@@ -32,6 +35,9 @@ class Device
      */
     static public function enable(ZKTeco $self)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
         $command = Util::CMD_ENABLE_DEVICE;
@@ -48,6 +54,9 @@ class Device
      */
     static public function disable(ZKTeco $self)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
         $command = Util::CMD_DISABLE_DEVICE;
@@ -64,6 +73,9 @@ class Device
      */
     public static function powerOff(ZKTeco $self)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
         $command = Util::CMD_POWEROFF;
@@ -79,6 +91,9 @@ class Device
      */
     public static function restart(ZKTeco $self)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
         $command = Util::CMD_RESTART;
@@ -94,6 +109,9 @@ class Device
      */
     public static function sleep(ZKTeco $self)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
         $command = Util::CMD_SLEEP;
@@ -109,6 +127,9 @@ class Device
      */
     public static function resume(ZKTeco $self)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
         $command = Util::CMD_RESUME;
@@ -124,6 +145,9 @@ class Device
      */
     public static function testVoice(ZKTeco $self)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
         $command = Util::CMD_TESTVOICE;
@@ -139,6 +163,9 @@ class Device
      */
     public static function clearLCD(ZKTeco $self)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
         $command = Util::CMD_CLEAR_LCD;
@@ -155,6 +182,9 @@ class Device
      */
     public static function writeLCD(ZKTeco $self, $rank, $text)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
         $command = Util::CMD_WRITE_LCD;
@@ -167,6 +197,9 @@ class Device
 
     public static function memoryInfo(ZKTeco $self)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__;
 
         $command = Util::CMD_GET_FREE_SIZES;

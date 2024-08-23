@@ -21,6 +21,10 @@ class Attendance
      */
     static public function get(ZKTeco $self, $orderBy = 'asc')
     {
+
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__; // Set the current section for internal tracking (optional)
 
         $command = Util::CMD_ATT_LOG_RRQ; // Attendance log read request command
@@ -82,6 +86,9 @@ class Attendance
      */
     static public function clear(ZKTeco $self)
     {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
         $self->_section = __METHOD__; // Set the current section for internal tracking (optional)
 
         $command = Util::CMD_CLEAR_ATT_LOG; // Clear attendance log command
