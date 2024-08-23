@@ -61,7 +61,7 @@ class User
      * @param ZKTeco $self
      * @return array [userid, name, cardno, uid, role, password]
      */
-    static public function get(ZKTeco $self, $returnArr)
+    static public function get(ZKTeco $self, $callback)
     {
         // ping to device
         Util::ping($self->_ip, $self->_requiredPing);
@@ -117,11 +117,11 @@ class User
                     'device_ip' => $self->_ip,
                 ];
 
-                if (!$returnArr) {
-                    $data = (object)$data;
+                if(is_callable($callback)){
+                    $users[$userid] = $callback($data);
+                }else{
+                    $users[$userid] = $data;
                 }
-
-                $users[$userid] = $data;
 
                 $userData = substr($userData, 72);
             }

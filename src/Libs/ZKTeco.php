@@ -237,9 +237,9 @@ class ZKTeco
      *
      * @return array An array containing user data.
      */
-    public function getUsers($returnArr = false): array
+    public function getUsers( callable $callback = null): array
     {
-        return User::get($this, $returnArr);
+        return User::get($this, $callback);
     }
 
     /**
@@ -332,9 +332,9 @@ class ZKTeco
      *
      * @return array An array containing attendance records.
      */
-    public function getAttendances($orderBy = "asc", $returnArr = false): array
+    public function getAttendances($orderBy = "asc", callable $callback = null): array
     {
-        return Attendance::get($this, $orderBy, $returnArr);
+        return Attendance::get($this, $orderBy, $callback);
     }
 
 

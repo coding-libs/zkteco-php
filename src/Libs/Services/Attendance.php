@@ -19,7 +19,7 @@ class Attendance
      *               - timestamp: Timestamp of the attendance record
      *               - type: Attendance type (might be device specific)
      */
-    static public function get(ZKTeco $self, $orderBy, $returnArr)
+    static public function get(ZKTeco $self, $orderBy, $callback)
     {
 
         // ping to device
@@ -63,20 +63,20 @@ class Attendance
                     'state' => $state,
                     'record_time' => $timestamp,
                     'type' => $type,
-                    'device_ip'=> $self->_ip
+                    'device_ip' => $self->_ip
                 ];
 
-                if(!$returnArr){
-                    $data = (object) $data;
+                if (is_callable($callback)) {
+                    $attendance[] = $callback($data);
+                } else {
+                    $attendance[] = $data;
                 }
-
-                $attendance[] = $data; // Add record to the attendance array
 
                 $attData = substr($attData, 40); // Move to the next attendance record data
             }
         }
 
-        if($orderBy != 'asc'){
+        if ($orderBy != 'asc') {
             rsort($attendance);
         }
 
