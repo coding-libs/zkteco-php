@@ -454,7 +454,7 @@ class ZKTeco
      *
      * @return bool|string Captured ip existence.
      */
-    public function testPing($throw = false)
+    public function ping($throw = false)
     {
         return Util::ping($this->_ip, $throw);
     }
