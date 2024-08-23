@@ -113,7 +113,8 @@ class User
                     'name' => $name,
                     'role' => intval($role),
                     'password' => $password,
-                    'cardno' => $cardno,
+                    'card_no' => $cardno,
+                    'device_ip' => $self->_ip,
                 ];
 
                 if (!$returnArr) {

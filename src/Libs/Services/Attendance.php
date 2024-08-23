@@ -62,7 +62,8 @@ class Attendance
                     'user_id' => $id,
                     'state' => $state,
                     'record_time' => $timestamp,
-                    'type' => $type
+                    'type' => $type,
+                    'device_ip'=> $self->_ip
                 ];
 
                 if(!$returnArr){
