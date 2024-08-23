@@ -19,7 +19,7 @@ class Attendance
      *               - timestamp: Timestamp of the attendance record
      *               - type: Attendance type (might be device specific)
      */
-    static public function get(ZKTeco $self, $orderBy = 'asc')
+    static public function get(ZKTeco $self, $orderBy, $returnArr)
     {
 
         // ping to device
@@ -57,13 +57,19 @@ class Attendance
 
                 $type = hexdec(Util::reverseHex(substr($u[1], 66, 2))); // Extract attendance type
 
-                $attendance[] = [ // Add record to the attendance array
+                $data = [ // Add record to the attendance array
                     'id' => $uid,
                     'user_id' => $id,
                     'state' => $state,
                     'record_time' => $timestamp,
                     'type' => $type
                 ];
+
+                if(!$returnArr){
+                    $data = (object) $data;
+                }
+
+                $attendance[] = $data; // Add record to the attendance array
 
                 $attData = substr($attData, 40); // Move to the next attendance record data
             }

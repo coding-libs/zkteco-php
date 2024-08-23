@@ -29,11 +29,11 @@ class User
         $password = substr(trim($password), 8);
         $cardno = substr(trim($cardno), 10);
 
-        if((int)$uid === 0 || (int)$uid > Util::USHRT_MAX){
-            throw new InvalidParamException("UID should be between 1 and ".Util::USHRT_MAX);
+        if ((int)$uid === 0 || (int)$uid > Util::USHRT_MAX) {
+            throw new InvalidParamException("UID should be between 1 and " . Util::USHRT_MAX);
         }
 
-        if(strlen($userid) > 9){
+        if (strlen($userid) > 9) {
             throw new InvalidParamException("UserId length should not be greater than 9 chars");
         }
 
@@ -61,7 +61,7 @@ class User
      * @param ZKTeco $self
      * @return array [userid, name, cardno, uid, role, password]
      */
-    static public function get(ZKTeco $self)
+    static public function get(ZKTeco $self, $returnArr)
     {
         // ping to device
         Util::ping($self->_ip, $self->_requiredPing);
@@ -107,7 +107,7 @@ class User
                     $name = $userid;
                 }
 
-                $users[$userid] = [
+                $data = [
                     'uid' => $uid,
                     'user_id' => $userid,
                     'name' => $name,
@@ -115,6 +115,12 @@ class User
                     'password' => $password,
                     'cardno' => $cardno,
                 ];
+
+                if (!$returnArr) {
+                    $data = (object)$data;
+                }
+
+                $users[$userid] = $data;
 
                 $userData = substr($userData, 72);
             }
