@@ -105,17 +105,17 @@ class Util
 
     static public function trimDeviceData($data, $command = '')
     {
-        $newData = trim($data);
-        if (!$command) {
-            return $newData;
+        if (!$command || !$data) {
+            return trim($data);
         }
 
-        return str_replace($command . '=', '', $newData);
+        $result =  str_replace($command . '=', '', $data);
+
+        return trim($result);
     }
 
     /**
      * Decode a timestamp retrieved from the timeclock
-     * copied from zkemsdk.c - DecodeTime
      *
      * @param int|string $t
      * @return false|string Format: "Y-m-d H:i:s"
