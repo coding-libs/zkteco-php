@@ -4,6 +4,7 @@ namespace CodingLibs\ZktecoPhp\Libs;
 
 use CodingLibs\ZktecoPhp\Exceptions\PingException;
 use CodingLibs\ZktecoPhp\Libs\Services\Ping;
+use CodingLibs\ZktecoPhp\Libs\Services\Vendor;
 use ErrorException;
 use Exception;
 use CodingLibs\ZktecoPhp\Libs\Services\Attendance;
@@ -203,13 +204,13 @@ class ZKTeco
     }
 
     /**
-     * Retrieves the vendor of the device.
+     * Retrieves the name of the vendor.
      *
-     * @return bool|mixed The name of the device.
+     * @return bool|mixed The name of the vendor.
      */
-    public function deviceVendor()
+    public function vendorName()
     {
-        return Device::vendor($this);
+        return Vendor::name($this);
     }
 
     /**

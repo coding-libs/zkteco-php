@@ -24,6 +24,7 @@ use CodingLibs\ZktecoPhp\Libs\Zkteco;
 $zktecoLib = new Zkteco('192.168.1.1');
 $zktecoLib->connect();
 
+$zktecoLib->vendorName(); // "ZKTeco Inc.
 $zktecoLib->deviceName(); // "F22/ID
 $zktecoLib->serialNumber(); // "BOCK201261276
 $zktecoLib->pinWidth(); // "14
