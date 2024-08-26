@@ -485,7 +485,7 @@ class ZKTeco
      */
     public function ping($throw = false)
     {
-        Ping::run($this, $throw);
+        return Ping::run($this, $throw);
     }
 
 }
