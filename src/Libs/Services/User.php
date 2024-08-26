@@ -117,9 +117,9 @@ class User
                     'device_ip' => $self->_ip,
                 ];
 
-                if(is_callable($callback)){
+                if (is_callable($callback)) {
                     $users[$userid] = $callback($data);
-                }else{
+                } else {
                     $users[$userid] = $data;
                 }
 
@@ -131,10 +131,31 @@ class User
     }
 
     /**
+     * Delete users by callable method conditionally
+     *
      * @param ZKTeco $self
      * @return bool|mixed
      */
-    static public function clear(ZKTeco $self)
+    static public function deleteUsers(ZKTeco $self, callable $callback)
+    {
+
+        $self->_section = __METHOD__;
+        Util::ping($self->_ip, $self->_requiredPing);
+
+        $users = static::get($self);
+        foreach ($users as $user) {
+            if ($callback($user)) {
+                static::remove($self, $user->uid);
+            }
+        }
+
+    }
+
+    /**
+     * @param ZKTeco $self
+     * @return bool|mixed
+     */
+    static public function clearAll(ZKTeco $self)
     {
         // ping to device
         Util::ping($self->_ip, $self->_requiredPing);
@@ -151,7 +172,7 @@ class User
      * @param ZKTeco $self
      * @return bool|mixed
      */
-    static public function clearAdmin(ZKTeco $self)
+    static public function clearAdminPriv(ZKTeco $self)
     {
         // ping to device
         Util::ping($self->_ip, $self->_requiredPing);

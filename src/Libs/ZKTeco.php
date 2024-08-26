@@ -274,9 +274,20 @@ class ZKTeco
      *
      * @return bool|mixed True if all users were successfully removed.
      */
-    public function clearUsers()
+    public function clearAllUsers()
     {
-        return User::clear($this);
+        return User::clearAll($this);
+    }
+
+
+    /**
+     * Removes users from the device.
+     *
+     * @return bool|mixed True if all users were successfully removed.
+     */
+    public function deleteUsers(callable $callback)
+    {
+        return User::deleteUsers($this, $callback);
     }
 
     /**
@@ -284,9 +295,9 @@ class ZKTeco
      *
      * @return bool|mixed True if the admin privileges were successfully removed.
      */
-    public function clearAdmin()
+    public function clearAdminPriv()
     {
-        return User::clearAdmin($this);
+        return User::clearAdminPriv($this);
     }
 
     /**

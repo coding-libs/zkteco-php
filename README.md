@@ -38,6 +38,11 @@ $zktecoLib->getFingerprint(1);
 $zktecoLib->getUsers(); // users
 $zktecoLib->getAttendances(); // attendances logs
 $zktecoLib->getTime(); // device time
+$zktecoLib->clearAdminPriv(); // Removes the admin privileges from the current user.
+$zktecoLib->clearAllUsers(); // clear all users
+$zktecoLib->deleteUsers(function($user){
+   // condition goes there
+}); // delete users conditionally
 ```
 
 ## Contributing
