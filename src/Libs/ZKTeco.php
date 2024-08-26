@@ -33,6 +33,7 @@ class ZKTeco
     public $_session_id = 0;
     public $_section = '';
     public $_requiredPing = false;
+    public $_silentPing = false;
 
     /**
      * ZKLib constructor.
@@ -50,6 +51,12 @@ class ZKTeco
 
         $timeout = ['sec' => $timeout, 'usec' => 500000];
         socket_set_option($this->_zkclient, SOL_SOCKET, SO_RCVTIMEO, $timeout);
+    }
+
+    public function setPing($shouldPing = true, $silentPing = true)
+    {
+        $this->_silentPing = !!$silentPing;
+        $this->_requiredPing = !!$shouldPing;
     }
 
     /**
@@ -478,7 +485,7 @@ class ZKTeco
      */
     public function ping($throw = false)
     {
-        return Util::ping($this->_ip, $throw);
+        Ping::run($this, $throw);
     }
 
 }

@@ -15,7 +15,7 @@ class Platform
     static public function get(ZKTeco $self)
     {
         // ping to device
-        Util::ping($self->_ip, $self->_requiredPing);
+        Ping::run($self);
 
         $self->_section = __METHOD__;
 
@@ -36,7 +36,7 @@ class Platform
     static public function getVersion(ZKTeco $self)
     {
         // ping to device
-        Util::ping($self->_ip, $self->_requiredPing);
+        Ping::run($self);
 
         $self->_section = __METHOD__;
 

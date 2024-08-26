@@ -15,7 +15,7 @@ class Ssr
     static public function get(ZKTeco $self)
     {
         // ping to device
-        Util::ping($self->_ip, $self->_requiredPing);
+        Ping::run($self);
 
         $self->_section = __METHOD__;
 

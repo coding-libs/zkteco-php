@@ -15,7 +15,7 @@ class Vendor
     static public function name(ZKTeco $self)
     {
         // ping to device
-        Util::ping($self->_ip, $self->_requiredPing);
+        Ping::run($self);
 
         $self->_section = __METHOD__;
 

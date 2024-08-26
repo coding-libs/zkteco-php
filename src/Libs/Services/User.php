@@ -20,7 +20,7 @@ class User
     static public function set(ZKTeco $self, $uid, $userid, $name, $password, $role = Util::LEVEL_USER, $cardno = 0)
     {
         // ping to device
-        Util::ping($self->_ip, $self->_requiredPing);
+        Ping::run($self);
 
         $self->_section = __METHOD__;
 
@@ -64,7 +64,7 @@ class User
     static public function get(ZKTeco $self, $callback)
     {
         // ping to device
-        Util::ping($self->_ip, $self->_requiredPing);
+        Ping::run($self);
 
         $self->_section = __METHOD__;
 
@@ -140,7 +140,8 @@ class User
     {
 
         $self->_section = __METHOD__;
-        Util::ping($self->_ip, $self->_requiredPing);
+
+        Ping::run($self);
 
         $users = static::get($self);
         foreach ($users as $user) {
@@ -158,7 +159,7 @@ class User
     static public function clearAll(ZKTeco $self)
     {
         // ping to device
-        Util::ping($self->_ip, $self->_requiredPing);
+        Ping::run($self);
 
         $self->_section = __METHOD__;
 
@@ -175,7 +176,7 @@ class User
     static public function clearAdminPriv(ZKTeco $self)
     {
         // ping to device
-        Util::ping($self->_ip, $self->_requiredPing);
+        Ping::run($self);
 
         $self->_section = __METHOD__;
 
@@ -193,7 +194,7 @@ class User
     static public function remove(ZKTeco $self, $uid)
     {
         // ping to device
-        Util::ping($self->_ip, $self->_requiredPing);
+        Ping::run($self);
 
         $self->_section = __METHOD__;
 

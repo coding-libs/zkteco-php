@@ -16,7 +16,7 @@ class Time
     static public function set(ZKTeco $self, $t)
     {
         // ping to device
-        Util::ping($self->_ip, $self->_requiredPing);
+        Ping::run($self);
 
         $self->_section = __METHOD__;
 
@@ -35,7 +35,7 @@ class Time
     static public function get(ZKTeco $self)
     {
         // ping to device
-        Util::ping($self->_ip, $self->_requiredPing);
+        Ping::run($self);
 
         $self->_section = __METHOD__;
 

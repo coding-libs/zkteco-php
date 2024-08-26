@@ -16,7 +16,7 @@ class Fingerprint
     static public function get(ZKTeco $self, $uid)
     {
         // ping to device
-        Util::ping($self->_ip, $self->_requiredPing);
+        Ping::run($self);
 
         $self->_section = __METHOD__;
 
@@ -44,7 +44,7 @@ class Fingerprint
     static public function set(ZKTeco $self, $uid, array $data)
     {
         // ping to device
-        Util::ping($self->_ip, $self->_requiredPing);
+        Ping::run($self);
 
         $self->_section = __METHOD__;
 
@@ -74,7 +74,7 @@ class Fingerprint
     static public function remove(ZKTeco $self, $uid, array $data)
     {
         // ping to device
-        Util::ping($self->_ip, $self->_requiredPing);
+        Ping::run($self);
 
         $self->_section = __METHOD__;
 

@@ -17,7 +17,7 @@ class Connect
     static public function connect(ZKTeco $self)
     {
         // ping to device
-        Util::ping($self->_ip, $self->_requiredPing);
+        Ping::run($self);
 
         // Set the current section of the code.
         $self->_section = __METHOD__;
@@ -78,7 +78,7 @@ class Connect
      */
     static public function disconnect(ZKTeco $self)
     {
-        if(!Util::ping($self->_ip)){
+        if(!Ping::run($self)){
             return true;
         }
 
