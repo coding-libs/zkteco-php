@@ -7,6 +7,27 @@ use CodingLibs\ZktecoPhp\Libs\ZKTeco;
 class Device
 {
     /**
+     * Get the vendor of the Device.
+     *
+     * @param ZKTeco $self The instance of the ZKTecoPhp class.
+     * @return bool|mixed Returns the device name if successful, false otherwise.
+     */
+    static public function vendor(ZKTeco $self)
+    {
+        // ping to device
+        Util::ping($self->_ip, $self->_requiredPing);
+
+        $self->_section = __METHOD__;
+
+        $command = Util::CMD_DEVICE;
+        $command_string = '~OEMVendor';
+
+        $data = $self->_command($command, $command_string);
+
+        return Util::trimDeviceData($data, $command_string);
+    }
+
+    /**
      * Get the name of the device.
      *
      * @param ZKTeco $self The instance of the ZKTecoPhp class.

@@ -203,6 +203,16 @@ class ZKTeco
     }
 
     /**
+     * Retrieves the vendor of the device.
+     *
+     * @return bool|mixed The name of the device.
+     */
+    public function deviceVendor()
+    {
+        return Device::vendor($this);
+    }
+
+    /**
      * Retrieves the name of the device.
      *
      * @return bool|mixed The name of the device.
