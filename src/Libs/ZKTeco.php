@@ -2,26 +2,25 @@
 
 namespace CodingLibs\ZktecoPhp\Libs;
 
-use CodingLibs\ZktecoPhp\Exceptions\PingException;
-use CodingLibs\ZktecoPhp\Libs\Services\Ping;
-use CodingLibs\ZktecoPhp\Libs\Services\Vendor;
-use ErrorException;
-use Exception;
+use CodingLibs\ZktecoPhp\Libs\Services\SerialNumber;
+use CodingLibs\ZktecoPhp\Libs\Services\Fingerprint;
 use CodingLibs\ZktecoPhp\Libs\Services\Attendance;
+use CodingLibs\ZktecoPhp\Libs\Services\Platform;
+use CodingLibs\ZktecoPhp\Libs\Services\WorkCode;
+use CodingLibs\ZktecoPhp\Libs\Services\Version;
 use CodingLibs\ZktecoPhp\Libs\Services\Connect;
 use CodingLibs\ZktecoPhp\Libs\Services\Device;
-use CodingLibs\ZktecoPhp\Libs\Services\Face;
-use CodingLibs\ZktecoPhp\Libs\Services\Fingerprint;
-use CodingLibs\ZktecoPhp\Libs\Services\Os;
-use CodingLibs\ZktecoPhp\Libs\Services\Pin;
-use CodingLibs\ZktecoPhp\Libs\Services\Platform;
-use CodingLibs\ZktecoPhp\Libs\Services\SerialNumber;
-use CodingLibs\ZktecoPhp\Libs\Services\Ssr;
+use CodingLibs\ZktecoPhp\Libs\Services\Vendor;
+use CodingLibs\ZktecoPhp\Libs\Services\Ping;
 use CodingLibs\ZktecoPhp\Libs\Services\Time;
 use CodingLibs\ZktecoPhp\Libs\Services\User;
 use CodingLibs\ZktecoPhp\Libs\Services\Util;
-use CodingLibs\ZktecoPhp\Libs\Services\Version;
-use CodingLibs\ZktecoPhp\Libs\Services\WorkCode;
+use CodingLibs\ZktecoPhp\Libs\Services\Face;
+use CodingLibs\ZktecoPhp\Libs\Services\Ssr;
+use CodingLibs\ZktecoPhp\Libs\Services\Pin;
+use CodingLibs\ZktecoPhp\Libs\Services\Os;
+use ErrorException;
+use Exception;
 
 class ZKTeco
 {
@@ -36,12 +35,12 @@ class ZKTeco
     public $_silentPing = false;
 
     /**
-     * ZKLib constructor.
-     *
      * @param string $ip Device IP address.
      * @param int $port Port number. Default: 4370.
+     * @param bool $shouldPing should ping before device connection
+     * @param int $timeout timeout in sec
      */
-    public function __construct(string $ip, int $port = 4370, $shouldPing = true, $timeout = 30)
+    public function __construct(string $ip, int $port = 4370, bool $shouldPing = false, int $timeout = 25)
     {
         $this->_ip = $ip;
         $this->_port = $port;
@@ -53,7 +52,15 @@ class ZKTeco
         socket_set_option($this->_zkclient, SOL_SOCKET, SO_RCVTIMEO, $timeout);
     }
 
-    public function setPing($shouldPing = true, $silentPing = true)
+    /**
+     * Overwrite ping setup
+     *
+     * @param bool $shouldPing
+     * @param bool $silentPing
+     * @return void
+     */
+
+    public function setPing(bool $shouldPing = false, bool $silentPing = true):void
     {
         $this->_silentPing = !!$silentPing;
         $this->_requiredPing = !!$shouldPing;
@@ -255,7 +262,7 @@ class ZKTeco
      *
      * @return array An array containing user data.
      */
-    public function getUsers( callable $callback = null): array
+    public function getUsers(callable $callback = null): array
     {
         return User::get($this, $callback);
     }
@@ -443,9 +450,9 @@ class ZKTeco
      *
      * @return bool|mixed True if the voice test was successful, otherwise returns the result from Device::testVoice.
      */
-    public function testVoice()
+    public function testVoice($index = 0)
     {
-        return Device::testVoice($this);
+        return Device::testVoice($this, $index);
     }
 
     /**

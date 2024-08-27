@@ -25,11 +25,11 @@ class User
         $self->_section = __METHOD__;
 
         $userid = trim($userid);
-        $name = substr(trim($name), 24);
-        $password = substr(trim($password), 8);
-        $cardno = substr(trim($cardno), 10);
+        $name = substr(trim($name), 0,24);
+        $password = substr(trim($password), 0,8);
+        $cardno = substr(trim($cardno), 0,10);
 
-        if ((int)$uid === 0 || (int)$uid > Util::USHRT_MAX) {
+        if ($uid === 0 || $uid > Util::USHRT_MAX) {
             throw new InvalidParamException("UID should be between 1 and " . Util::USHRT_MAX);
         }
 
@@ -61,7 +61,7 @@ class User
      * @param ZKTeco $self
      * @return array [userid, name, cardno, uid, role, password]
      */
-    static public function get(ZKTeco $self, $callback)
+    static public function get(ZKTeco $self, Callable $callback = null)
     {
         // ping to device
         Ping::run($self);
