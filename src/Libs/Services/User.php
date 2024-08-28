@@ -120,7 +120,9 @@ class User
                 ];
 
                 if (is_callable($callback)) {
-                    $users[$userid] = $callback($data);
+                    if($newData = $callback($data)){
+                        $users[$userid] = $newData;
+                    }
                 } else {
                     $users[$userid] = $data;
                 }
