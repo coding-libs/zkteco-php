@@ -10,9 +10,10 @@ class Os
      * Get the operating system information of the ZKTecoPhp device.
      *
      * @param ZKTeco $self The instance of the ZKTecoPhp class.
+     *
      * @return bool|mixed Returns the operating system information if successful, false otherwise.
      */
-    static public function get(ZKTeco $self)
+    public static function get(ZKTeco $self)
     {
         // ping to device
         Ping::run($self);

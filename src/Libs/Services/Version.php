@@ -13,9 +13,10 @@ class Version
      * the device's firmware version.
      *
      * @param Zkteco $self An instance of the ZKTeco class.
+     *
      * @return bool|mixed The device version string on success, false on failure.
      */
-    static public function get(Zkteco $self)
+    public static function get(Zkteco $self)
     {
         // ping to device
         Ping::run($self);

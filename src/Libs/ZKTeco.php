@@ -2,29 +2,28 @@
 
 namespace CodingLibs\ZktecoPhp\Libs;
 
-use CodingLibs\ZktecoPhp\Libs\Services\SerialNumber;
-use CodingLibs\ZktecoPhp\Libs\Services\Fingerprint;
 use CodingLibs\ZktecoPhp\Libs\Services\Attendance;
-use CodingLibs\ZktecoPhp\Libs\Services\Platform;
-use CodingLibs\ZktecoPhp\Libs\Services\WorkCode;
-use CodingLibs\ZktecoPhp\Libs\Services\Version;
 use CodingLibs\ZktecoPhp\Libs\Services\Connect;
 use CodingLibs\ZktecoPhp\Libs\Services\Device;
-use CodingLibs\ZktecoPhp\Libs\Services\Vendor;
+use CodingLibs\ZktecoPhp\Libs\Services\Face;
+use CodingLibs\ZktecoPhp\Libs\Services\Fingerprint;
+use CodingLibs\ZktecoPhp\Libs\Services\Os;
+use CodingLibs\ZktecoPhp\Libs\Services\Pin;
 use CodingLibs\ZktecoPhp\Libs\Services\Ping;
+use CodingLibs\ZktecoPhp\Libs\Services\Platform;
+use CodingLibs\ZktecoPhp\Libs\Services\SerialNumber;
+use CodingLibs\ZktecoPhp\Libs\Services\Ssr;
 use CodingLibs\ZktecoPhp\Libs\Services\Time;
 use CodingLibs\ZktecoPhp\Libs\Services\User;
 use CodingLibs\ZktecoPhp\Libs\Services\Util;
-use CodingLibs\ZktecoPhp\Libs\Services\Face;
-use CodingLibs\ZktecoPhp\Libs\Services\Ssr;
-use CodingLibs\ZktecoPhp\Libs\Services\Pin;
-use CodingLibs\ZktecoPhp\Libs\Services\Os;
+use CodingLibs\ZktecoPhp\Libs\Services\Vendor;
+use CodingLibs\ZktecoPhp\Libs\Services\Version;
+use CodingLibs\ZktecoPhp\Libs\Services\WorkCode;
 use ErrorException;
 use Exception;
 
 class ZKTeco
 {
-
     public $_ip;
     public $_port;
     public $_zkclient;
@@ -35,16 +34,16 @@ class ZKTeco
     public $_silentPing = false;
 
     /**
-     * @param string $ip Device IP address.
-     * @param int $port Port number. Default: 4370.
-     * @param bool $shouldPing should ping before device connection
-     * @param int $timeout timeout in sec
+     * @param string $ip         Device IP address.
+     * @param int    $port       Port number. Default: 4370.
+     * @param bool   $shouldPing should ping before device connection
+     * @param int    $timeout    timeout in sec
      */
     public function __construct(string $ip, int $port = 4370, bool $shouldPing = false, int $timeout = 25)
     {
         $this->_ip = $ip;
         $this->_port = $port;
-        $this->_requiredPing = !!$shouldPing;
+        $this->_requiredPing = (bool) $shouldPing;
 
         $this->_zkclient = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
 
@@ -53,25 +52,26 @@ class ZKTeco
     }
 
     /**
-     * Overwrite ping setup
+     * Overwrite ping setup.
      *
      * @param bool $shouldPing
      * @param bool $silentPing
+     *
      * @return void
      */
-
-    public function setPing(bool $shouldPing = false, bool $silentPing = true):void
+    public function setPing(bool $shouldPing = false, bool $silentPing = true): void
     {
-        $this->_silentPing = !!$silentPing;
-        $this->_requiredPing = !!$shouldPing;
+        $this->_silentPing = (bool) $silentPing;
+        $this->_requiredPing = (bool) $shouldPing;
     }
 
     /**
-     * Create and send command to device
+     * Create and send command to device.
      *
      * @param string $command
      * @param string $command_string
      * @param string $type
+     *
      * @return bool|mixed
      */
     public function _command(string $command, string $command_string, string $type = Util::COMMAND_TYPE_GENERAL)
@@ -80,7 +80,7 @@ class ZKTeco
         $session_id = $this->_session_id;
 
         $u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6/H2h7/H2h8', substr($this->_data_recv, 0, 8));
-        $reply_id = hexdec($u['h8'] . $u['h7']);
+        $reply_id = hexdec($u['h8'].$u['h7']);
 
         $buf = Util::createHeader($command, $chksum, $session_id, $reply_id, $command_string);
 
@@ -92,7 +92,7 @@ class ZKTeco
             $u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6', substr($this->_data_recv, 0, 8));
 
             $ret = false;
-            $session = hexdec($u['h6'] . $u['h5']);
+            $session = hexdec($u['h6'].$u['h5']);
 
             if ($type === Util::COMMAND_TYPE_GENERAL && $session_id === $session) {
                 $ret = substr($this->_data_recv, 8);
@@ -105,7 +105,6 @@ class ZKTeco
             return false;
         }
     }
-
 
     /**
      * Connects to the device.
@@ -270,12 +269,13 @@ class ZKTeco
     /**
      * Sets user data for the specified user.
      *
-     * @param int $uid Unique ID of the user.
-     * @param int|string $userid ID in DB.
-     * @param string $name Name of the user.
+     * @param int        $uid      Unique ID of the user.
+     * @param int|string $userid   ID in DB.
+     * @param string     $name     Name of the user.
      * @param int|string $password Password for the user.
-     * @param int $role Role of the user.
-     * @param int $cardno Card number associated with the user.
+     * @param int        $role     Role of the user.
+     * @param int        $cardno   Card number associated with the user.
+     *
      * @return bool|mixed True if user data was successfully set.
      */
     public function setUser(int $uid, $userid, string $name, $password, int $role = Util::LEVEL_USER, int $cardno = 0)
@@ -292,7 +292,6 @@ class ZKTeco
     {
         return User::clearAll($this);
     }
-
 
     /**
      * Removes users from the device.
@@ -318,6 +317,7 @@ class ZKTeco
      * Removes a user identified by the specified UID from the device.
      *
      * @param int $uid The unique ID of the user to be removed.
+     *
      * @return bool|mixed True if the user was successfully removed.
      */
     public function removeUser(int $uid)
@@ -328,8 +328,9 @@ class ZKTeco
     /**
      * Sets a fingerprint for a specified user on the device.
      *
-     * @param int $uid Unique ID of the user.
+     * @param int   $uid         Unique ID of the user.
      * @param array $fingerprint Array of fingerprint binary data.
+     *
      * @return bool|mixed True if fingerprint data was successfully set.
      */
     public function getFingerprint(int $uid)
@@ -340,8 +341,9 @@ class ZKTeco
     /**
      * Sets a fingerprint for a specified user on the device.
      *
-     * @param int $uid Unique ID of the user.
+     * @param int   $uid         Unique ID of the user.
      * @param array $fingerprint Array of fingerprint binary data.
+     *
      * @return bool|mixed True if fingerprint data was successfully set.
      */
     public function setFingerprint(int $uid, array $fingerprint)
@@ -349,12 +351,12 @@ class ZKTeco
         return Fingerprint::set($this, $uid, $fingerprint);
     }
 
-
     /**
      * Removes fingerprints associated with the specified UID and fingers ID array from the device.
      *
-     * @param integer $uid Unique ID (max 65535) of the user whose fingerprints will be removed.
+     * @param int   $uid  Unique ID (max 65535) of the user whose fingerprints will be removed.
      * @param array $data Array containing the fingers ID (0-9) of the fingerprints to be removed.
+     *
      * @return int The count of deleted fingerprints.
      */
     public function removeFingerprint($uid, array $data)
@@ -362,17 +364,15 @@ class ZKTeco
         return Fingerprint::remove($this, $uid, $data);
     }
 
-
     /**
      * Retrieves the attendance records from the device.
      *
      * @return array An array containing attendance records.
      */
-    public function getAttendances($orderBy = "asc", callable $callback = null): array
+    public function getAttendances($orderBy = 'asc', callable $callback = null): array
     {
         return Attendance::get($this, $orderBy, $callback);
     }
-
 
     /**
      * Clears the attendance log of the device.
@@ -388,6 +388,7 @@ class ZKTeco
      * Sets the device time to the specified value.
      *
      * @param string $t The time to set, in the format "Y-m-d H:i:s".
+     *
      * @return bool|mixed True if the device time was successfully set, otherwise returns the result from Time::set.
      */
     public function setTime($t)
@@ -494,5 +495,4 @@ class ZKTeco
     {
         return Ping::run($this, $throw);
     }
-
 }

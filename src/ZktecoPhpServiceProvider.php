@@ -23,5 +23,4 @@ class ZktecoPhpServiceProvider extends ServiceProvider
     public function boot()
     {
     }
-
 }

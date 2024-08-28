@@ -10,9 +10,10 @@ class Vendor
      * Get the name of the vendor.
      *
      * @param ZKTeco $self The instance of the ZKTecoPhp class.
+     *
      * @return bool|mixed Returns the vendor name if successful, false otherwise.
      */
-    static public function name(ZKTeco $self)
+    public static function name(ZKTeco $self)
     {
         // ping to device
         Ping::run($self);
