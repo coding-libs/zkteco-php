@@ -2,59 +2,57 @@
 
 namespace CodingLibs\ZktecoPhp\Libs\Services;
 
-use CodingLibs\ZktecoPhp\Exceptions\PingException;
 use CodingLibs\ZktecoPhp\Libs\ZKTeco;
 
 class Util
 {
     const USHRT_MAX = 65535;
 
-    const CMD_CONNECT = 1000; # Connections requests
-    const CMD_EXIT = 1001; # Disconnection requests
-    const CMD_ENABLE_DEVICE = 1002; # Ensure the machine to be at the normal work condition
-    const CMD_DISABLE_DEVICE = 1003; # Make the machine to be at the shut-down condition, generally demonstrates ‘in the work ...’on LCD
+    const CMD_CONNECT = 1000; // Connections requests
+    const CMD_EXIT = 1001; // Disconnection requests
+    const CMD_ENABLE_DEVICE = 1002; // Ensure the machine to be at the normal work condition
+    const CMD_DISABLE_DEVICE = 1003; // Make the machine to be at the shut-down condition, generally demonstrates ‘in the work ...’on LCD
 
-    const CMD_RESTART = 1004; # Restart the machine
-    const CMD_POWEROFF = 1005; # Turn Off the machine
-    const CMD_SLEEP = 1006; # Sleep the machine
-    const CMD_RESUME = 1007; # Resume the machine from Sleep
+    const CMD_RESTART = 1004; // Restart the machine
+    const CMD_POWEROFF = 1005; // Turn Off the machine
+    const CMD_SLEEP = 1006; // Sleep the machine
+    const CMD_RESUME = 1007; // Resume the machine from Sleep
     const CMD_TEST_TEMP = 1011;
-    const CMD_TESTVOICE = 1017; # Voice test to the device
+    const CMD_TESTVOICE = 1017; // Voice test to the device
     const CMD_CHANGE_SPEED = 1101;
 
+    const CMD_WRITE_LCD = 66; // Write in LCD
+    const CMD_CLEAR_LCD = 67; // Clear LCD
 
-    const CMD_WRITE_LCD = 66; # Write in LCD
-    const CMD_CLEAR_LCD = 67; # Clear LCD
+    const CMD_ACK_OK = 2000; // Return value for order perform successfully
+    const CMD_ACK_ERROR = 2001; // Return value for order perform failed
+    const CMD_ACK_DATA = 2002; // Return data
+    const CMD_ACK_UNAUTH = 2005; // Connection unauthorized
 
-    const CMD_ACK_OK = 2000; # Return value for order perform successfully
-    const CMD_ACK_ERROR = 2001; # Return value for order perform failed
-    const CMD_ACK_DATA = 2002; # Return data
-    const CMD_ACK_UNAUTH = 2005; # Connection unauthorized
+    const CMD_PREPARE_DATA = 1500; // Prepares to transmit the data
+    const CMD_DATA = 1501; // Transmit a data packet
+    const CMD_FREE_DATA = 1502; // Clear machines open buffer
 
-    const CMD_PREPARE_DATA = 1500; # Prepares to transmit the data
-    const CMD_DATA = 1501; # Transmit a data packet
-    const CMD_FREE_DATA = 1502; # Clear machines open buffer
+    const CMD_USER_TEMP_RRQ = 9; // Read some fingerprint template or some kind of data entirely
+    const CMD_ATT_LOG_RRQ = 13; // Read all attendance record
+    const CMD_CLEAR_DATA = 14; // Clear Data
+    const CMD_CLEAR_ATT_LOG = 15; // Clear attendance records
+    const CMD_GET_FREE_SIZES = 50; // Clear attendance records
 
-    const CMD_USER_TEMP_RRQ = 9; # Read some fingerprint template or some kind of data entirely
-    const CMD_ATT_LOG_RRQ = 13; # Read all attendance record
-    const CMD_CLEAR_DATA = 14; # Clear Data
-    const CMD_CLEAR_ATT_LOG = 15; # Clear attendance records
-    const CMD_GET_FREE_SIZES = 50; # Clear attendance records
+    const CMD_GET_TIME = 201; // Obtain the machine time
+    const CMD_SET_TIME = 202; // Set machines time
 
-    const CMD_GET_TIME = 201; # Obtain the machine time
-    const CMD_SET_TIME = 202; # Set machines time
+    const CMD_VERSION = 1100; // Obtain the firmware edition
+    const CMD_DEVICE = 11; // Read in the machine some configuration parameter
 
-    const CMD_VERSION = 1100; # Obtain the firmware edition
-    const CMD_DEVICE = 11; # Read in the machine some configuration parameter
+    const CMD_SET_USER = 8; // Upload the user information (from PC to terminal).
+    const CMD_USER_TEMP_WRQ = 10; // Upload some fingerprint template
+    const CMD_DELETE_USER = 18; // Delete some user
+    const CMD_DELETE_USER_TEMP = 19; // Delete some fingerprint template
+    const CMD_CLEAR_ADMIN = 20; // Cancel the manager
 
-    const CMD_SET_USER = 8; # Upload the user information (from PC to terminal).
-    const CMD_USER_TEMP_WRQ = 10; # Upload some fingerprint template
-    const CMD_DELETE_USER = 18; # Delete some user
-    const CMD_DELETE_USER_TEMP = 19; # Delete some fingerprint template
-    const CMD_CLEAR_ADMIN = 20; # Cancel the manager
-
-    const LEVEL_USER = 0; # User level as User
-    const LEVEL_ADMIN = 14; # User level as Admin
+    const LEVEL_USER = 0; // User level as User
+    const LEVEL_ADMIN = 14; // User level as Admin
 
     const FCT_ATTLOG = 1;
     const FCT_WORKCODE = 8;
@@ -80,21 +78,22 @@ class Util
 
     /**
      * Encode a timestamp send at the timeclock
-     * copied from zkemsdk.c - EncodeTime
+     * copied from zkemsdk.c - EncodeTime.
      *
      * @param string $t Format: "Y-m-d H:i:s"
+     *
      * @return int
      */
-    static public function encodeTime($t)
+    public static function encodeTime($t)
     {
         $timestamp = strtotime($t);
-        $t = (object)[
-            'year' => (int)date('Y', $timestamp),
-            'month' => (int)date('m', $timestamp),
-            'day' => (int)date('d', $timestamp),
-            'hour' => (int)date('H', $timestamp),
-            'minute' => (int)date('i', $timestamp),
-            'second' => (int)date('s', $timestamp),
+        $t = (object) [
+            'year'   => (int) date('Y', $timestamp),
+            'month'  => (int) date('m', $timestamp),
+            'day'    => (int) date('d', $timestamp),
+            'hour'   => (int) date('H', $timestamp),
+            'minute' => (int) date('i', $timestamp),
+            'second' => (int) date('s', $timestamp),
         ];
 
         $d = (($t->year % 100) * 12 * 31 + (($t->month - 1) * 31) + $t->day - 1) *
@@ -103,24 +102,25 @@ class Util
         return $d;
     }
 
-    static public function trimDeviceData($data, $command = '')
+    public static function trimDeviceData($data, $command = '')
     {
         if (!$command || !$data) {
             return trim($data);
         }
 
-        $result =  str_replace($command . '=', '', $data);
+        $result = str_replace($command.'=', '', $data);
 
         return trim($result);
     }
 
     /**
-     * Decode a timestamp retrieved from the timeclock
+     * Decode a timestamp retrieved from the timeclock.
      *
      * @param int|string $t
+     *
      * @return false|string Format: "Y-m-d H:i:s"
      */
-    static public function decodeTime($t)
+    public static function decodeTime($t)
     {
         $second = floor($t % 60);
         $t = floor($t / 60);
@@ -140,7 +140,7 @@ class Util
         $year = floor($t + 2000);
 
         $d = date('Y-m-d H:i:s', strtotime(
-            $year . '-' . $month . '-' . $day . ' ' . $hour . ':' . $minute . ':' . $second
+            $year.'-'.$month.'-'.$day.' '.$hour.':'.$minute.':'.$second
         ));
 
         return $d;
@@ -148,9 +148,10 @@ class Util
 
     /**
      * @param string $hex
+     *
      * @return string
      */
-    static public function reverseHex($hex)
+    public static function reverseHex($hex)
     {
         $tmp = '';
 
@@ -165,19 +166,21 @@ class Util
     /**
      * Checks a returned packet to see if it returned self::CMD_PREPARE_DATA,
      * indicating that data packets are to be sent
-     * Returns the amount of bytes that are going to be sent
+     * Returns the amount of bytes that are going to be sent.
      *
      * @param ZKTeco $self
+     *
      * @return bool|number
      */
-    static public function getSize(ZKTeco $self)
+    public static function getSize(ZKTeco $self)
     {
         $u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6/H2h7/H2h8', substr($self->_data_recv, 0, 8));
-        $command = hexdec($u['h2'] . $u['h1']);
+        $command = hexdec($u['h2'].$u['h1']);
 
         if ($command == self::CMD_PREPARE_DATA) {
             $u = unpack('H2h1/H2h2/H2h3/H2h4', substr($self->_data_recv, 8, 4));
-            $size = hexdec($u['h4'] . $u['h3'] . $u['h2'] . $u['h1']);
+            $size = hexdec($u['h4'].$u['h3'].$u['h2'].$u['h1']);
+
             return $size;
         } else {
             return false;
@@ -187,18 +190,16 @@ class Util
     /**
      * This function calculates the chksum of the packet to be sent to the
      * time clock
-     * Copied from zkemsdk.c
-     *
-     * @inheritdoc
+     * Copied from zkemsdk.c.
      */
-    static public function createChkSum($p)
+    public static function createChkSum($p)
     {
         $l = count($p);
         $chksum = 0;
         $i = $l;
         $j = 1;
         while ($i > 1) {
-            $u = unpack('S', pack('C2', $p['c' . $j], $p['c' . ($j + 1)]));
+            $u = unpack('S', pack('C2', $p['c'.$j], $p['c'.($j + 1)]));
 
             $chksum += $u[1];
 
@@ -210,7 +211,7 @@ class Util
         }
 
         if ($i) {
-            $chksum = $chksum + $p['c' . strval(count($p))];
+            $chksum = $chksum + $p['c'.strval(count($p))];
         }
 
         while ($chksum > self::USHRT_MAX) {
@@ -218,7 +219,7 @@ class Util
         }
 
         if ($chksum > 0) {
-            $chksum = -($chksum);
+            $chksum = -$chksum;
         } else {
             $chksum = abs($chksum);
         }
@@ -233,15 +234,13 @@ class Util
 
     /**
      * This function puts a the parts that make up a packet together and
-     * packs them into a byte string
-     *
-     * @inheritdoc
+     * packs them into a byte string.
      */
-    static public function createHeader($command, $chksum, $session_id, $reply_id, $command_string)
+    public static function createHeader($command, $chksum, $session_id, $reply_id, $command_string)
     {
-        $buf = pack('SSSS', $command, $chksum, $session_id, $reply_id) . $command_string;
+        $buf = pack('SSSS', $command, $chksum, $session_id, $reply_id).$command_string;
 
-        $buf = unpack('C' . (8 + strlen($command_string)) . 'c', $buf);
+        $buf = unpack('C'.(8 + strlen($command_string)).'c', $buf);
 
         $u = unpack('S', self::createChkSum($buf));
 
@@ -258,21 +257,18 @@ class Util
 
         $buf = pack('SSSS', $command, $chksum, $session_id, $reply_id);
 
-        return $buf . $command_string;
-
+        return $buf.$command_string;
     }
 
     /**
      * Checks a returned packet to see if it returned Util::CMD_ACK_OK,
-     * indicating success
-     *
-     * @inheritdoc
+     * indicating success.
      */
-    static public function checkValid($reply)
+    public static function checkValid($reply)
     {
         $u = unpack('H2h1/H2h2', substr($reply, 0, 8));
 
-        $command = hexdec($u['h2'] . $u['h1']);
+        $command = hexdec($u['h2'].$u['h1']);
         /** TODO: Some device can return 'Connection unauthorized' then should check also */
         if ($command == self::CMD_ACK_OK || $command == self::CMD_ACK_UNAUTH) {
             return true;
@@ -282,11 +278,13 @@ class Util
     }
 
     /**
-     * Get User Role string
-     * @param integer $role
+     * Get User Role string.
+     *
+     * @param int $role
+     *
      * @return string
      */
-    static public function getUserRole($role)
+    public static function getUserRole($role)
     {
         switch ($role) {
             case self::LEVEL_USER:
@@ -303,11 +301,13 @@ class Util
     }
 
     /**
-     * Get Attendance State string
-     * @param integer $state
+     * Get Attendance State string.
+     *
+     * @param int $state
+     *
      * @return string
      */
-    static public function getAttState($state)
+    public static function getAttState($state)
     {
         switch ($state) {
             case self::ATT_STATE_FINGERPRINT:
@@ -327,11 +327,13 @@ class Util
     }
 
     /**
-     * Get Attendance Type string
-     * @param integer $type
+     * Get Attendance Type string.
+     *
+     * @param int $type
+     *
      * @return string
      */
-    static public function getAttType($type)
+    public static function getAttType($type)
     {
         switch ($type) {
             case self::ATT_TYPE_CHECK_IN:
@@ -360,13 +362,15 @@ class Util
     }
 
     /**
-     * Receive data from device
+     * Receive data from device.
+     *
      * @param ZKTeco $self
-     * @param int $maxErrors
-     * @param bool $first if 'true' don't remove first 4 bytes for first row
+     * @param int    $maxErrors
+     * @param bool   $first     if 'true' don't remove first 4 bytes for first row
+     *
      * @return string
      */
-    static public function recData(ZKTeco $self, $maxErrors = 10, $first = true)
+    public static function recData(ZKTeco $self, $maxErrors = 10, $first = true)
     {
         $data = '';
         $bytes = self::getSize($self);
@@ -388,6 +392,7 @@ class Util
                         //return empty if has maximum count of errors
                         self::logReceived($self, $received, $bytes);
                         unset($data);
+
                         return '';
                     }
                 }
@@ -414,31 +419,32 @@ class Util
 
     /**
      * @param ZKTeco $self
-     * @param int $received
-     * @param int $bytes
+     * @param int    $received
+     * @param int    $bytes
      */
-    static private function logReceived(ZKTeco $self, $received, $bytes)
+    private static function logReceived(ZKTeco $self, $received, $bytes)
     {
-        self::logger($self, 'Received: ' . $received . ' of ' . $bytes . ' bytes');
+        self::logger($self, 'Received: '.$received.' of '.$bytes.' bytes');
     }
 
     /**
-     * Write log
+     * Write log.
+     *
      * @param ZKTeco $self
      * @param string $str
      */
-    static private function logger(ZKTeco $self, $str)
+    private static function logger(ZKTeco $self, $str)
     {
         if (defined('ZK_LIB_LOG')) {
             //use constant if defined
             $log = ZK_LIB_LOG;
         } else {
             $dir = dirname(dirname(__FILE__));
-            $log = $dir . '/logs/error.log';
+            $log = $dir.'/logs/error.log';
         }
 
-        $row = '<' . $self->_ip . '> [' . date('d.m.Y H:i:s') . '] ';
-        $row .= (empty($self->_section) ? '' : '(' . $self->_section . ') ');
+        $row = '<'.$self->_ip.'> ['.date('d.m.Y H:i:s').'] ';
+        $row .= (empty($self->_section) ? '' : '('.$self->_section.') ');
         $row .= $str;
         $row .= PHP_EOL;
 

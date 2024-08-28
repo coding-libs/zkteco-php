@@ -12,9 +12,10 @@ class Connect
      * Establishes a connection with the ZKTecoPhp device.
      *
      * @param ZKTeco $self The instance of the ZKTecoPhp class.
+     *
      * @return bool Returns true if the connection is successfully established, false otherwise.
      */
-    static public function connect(ZKTeco $self)
+    public static function connect(ZKTeco $self)
     {
         // ping to device
         Ping::run($self);
@@ -45,7 +46,7 @@ class Connect
                 $u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6', substr($self->_data_recv, 0, 8));
 
                 // Convert session ID from hex to decimal.
-                $session = hexdec($u['h6'] . $u['h5']);
+                $session = hexdec($u['h6'].$u['h5']);
 
                 // If session ID is empty, return false.
                 if (empty($session)) {
@@ -74,11 +75,12 @@ class Connect
      * Disconnects from the ZKTecoPhp device.
      *
      * @param ZKTeco $self The instance of the ZKTecoPhp class.
+     *
      * @return bool Returns true if the disconnection is successful, false otherwise.
      */
-    static public function disconnect(ZKTeco $self)
+    public static function disconnect(ZKTeco $self)
     {
-        if(!Ping::run($self)){
+        if (!Ping::run($self)) {
             return true;
         }
 
@@ -93,7 +95,7 @@ class Connect
 
         // Unpack the data received during connection to extract reply ID.
         $u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6/H2h7/H2h8', substr($self->_data_recv, 0, 8));
-        $reply_id = hexdec($u['h8'] . $u['h7']);
+        $reply_id = hexdec($u['h8'].$u['h7']);
 
         // Create the header for the command.
         $buf = Util::createHeader($command, $chksum, $session_id, $reply_id, $command_string);

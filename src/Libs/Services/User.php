@@ -8,16 +8,17 @@ use CodingLibs\ZktecoPhp\Libs\ZKTeco;
 class User
 {
     /**
-     * @param ZKTeco $self
-     * @param int $uid Unique ID (max 65535)
-     * @param int|string $userid (max length = 9, only numbers - depends device setting)
-     * @param string $name (max length = 24)
+     * @param ZKTeco     $self
+     * @param int        $uid      Unique ID (max 65535)
+     * @param int|string $userid   (max length = 9, only numbers - depends device setting)
+     * @param string     $name     (max length = 24)
      * @param int|string $password (max length = 8, only numbers - depends device setting)
-     * @param int $role Default Util::LEVEL_USER
-     * @param int $cardno Default 0 (max length = 10, only numbers)
+     * @param int        $role     Default Util::LEVEL_USER
+     * @param int        $cardno   Default 0 (max length = 10, only numbers)
+     *
      * @return bool|mixed
      */
-    static public function set(ZKTeco $self, $uid, $userid, $name, $password, $role = Util::LEVEL_USER, $cardno = 0)
+    public static function set(ZKTeco $self, $uid, $userid, $name, $password, $role = Util::LEVEL_USER, $cardno = 0)
     {
         // ping to device
         Ping::run($self);
@@ -25,21 +26,21 @@ class User
         $self->_section = __METHOD__;
 
         $userid = trim($userid);
-        $name = substr(trim($name), 0,24);
-        $password = substr(trim($password), 0,8);
-        $cardno = substr(trim($cardno), 0,10);
+        $name = substr(trim($name), 0, 24);
+        $password = substr(trim($password), 0, 8);
+        $cardno = substr(trim($cardno), 0, 10);
 
         if ($uid === 0 || $uid > Util::USHRT_MAX) {
-            throw new InvalidParamException("UID should be between 1 and " . Util::USHRT_MAX);
+            throw new InvalidParamException('UID should be between 1 and '.Util::USHRT_MAX);
         }
 
         if (strlen($userid) > 9) {
-            throw new InvalidParamException("UserId length should not be greater than 9 chars");
+            throw new InvalidParamException('UserId length should not be greater than 9 chars');
         }
 
         $command = Util::CMD_SET_USER;
-        $byte1 = chr((int)($uid % 256));
-        $byte2 = chr((int)($uid >> 8));
+        $byte1 = chr((int) ($uid % 256));
+        $byte2 = chr((int) ($uid >> 8));
         $cardno = hex2bin(Util::reverseHex(dechex($cardno)));
 
         $command_string = implode('', [
@@ -51,7 +52,7 @@ class User
             str_pad($cardno, 4, chr(0)),
             str_pad(chr(1), 9, chr(0)),
             str_pad($userid, 9, chr(0)),
-            str_repeat(chr(0), 15)
+            str_repeat(chr(0), 15),
         ]);
 
         return $self->_command($command, $command_string);
@@ -59,9 +60,10 @@ class User
 
     /**
      * @param ZKTeco $self
+     *
      * @return array [userid, name, cardno, uid, role, password]
      */
-    static public function get(ZKTeco $self, Callable $callback = null)
+    public static function get(ZKTeco $self, callable $callback = null)
     {
         // ping to device
         Ping::run($self);
@@ -88,11 +90,11 @@ class User
                 $u1 = hexdec(substr($u[1], 2, 2));
                 $u2 = hexdec(substr($u[1], 4, 2));
                 $uid = $u1 + ($u2 * 256);
-                $cardno = hexdec(substr($u[1], 78, 2) . substr($u[1], 76, 2) . substr($u[1], 74, 2) . substr($u[1], 72, 2)) . ' ';
-                $role = hexdec(substr($u[1], 6, 2)) . ' ';
-                $password = hex2bin(substr($u[1], 8, 16)) . ' ';
-                $name = hex2bin(substr($u[1], 24, 74)) . ' ';
-                $userid = hex2bin(substr($u[1], 98, 72)) . ' ';
+                $cardno = hexdec(substr($u[1], 78, 2).substr($u[1], 76, 2).substr($u[1], 74, 2).substr($u[1], 72, 2)).' ';
+                $role = hexdec(substr($u[1], 6, 2)).' ';
+                $password = hex2bin(substr($u[1], 8, 16)).' ';
+                $name = hex2bin(substr($u[1], 24, 74)).' ';
+                $userid = hex2bin(substr($u[1], 98, 72)).' ';
 
                 //Clean up some messy characters from the user name
                 $password = explode(chr(0), $password, 2);
@@ -108,12 +110,12 @@ class User
                 }
 
                 $data = [
-                    'uid' => $uid,
-                    'user_id' => $userid,
-                    'name' => $name,
-                    'role' => intval($role),
-                    'password' => $password,
-                    'card_no' => $cardno,
+                    'uid'       => $uid,
+                    'user_id'   => $userid,
+                    'name'      => $name,
+                    'role'      => intval($role),
+                    'password'  => $password,
+                    'card_no'   => $cardno,
                     'device_ip' => $self->_ip,
                 ];
 
@@ -131,14 +133,14 @@ class User
     }
 
     /**
-     * Delete users by callable method conditionally
+     * Delete users by callable method conditionally.
      *
      * @param ZKTeco $self
+     *
      * @return bool|mixed
      */
-    static public function deleteUsers(ZKTeco $self, callable $callback)
+    public static function deleteUsers(ZKTeco $self, callable $callback)
     {
-
         $self->_section = __METHOD__;
 
         Ping::run($self);
@@ -149,14 +151,14 @@ class User
                 static::remove($self, $user->uid);
             }
         }
-
     }
 
     /**
      * @param ZKTeco $self
+     *
      * @return bool|mixed
      */
-    static public function clearAll(ZKTeco $self)
+    public static function clearAll(ZKTeco $self)
     {
         // ping to device
         Ping::run($self);
@@ -171,9 +173,10 @@ class User
 
     /**
      * @param ZKTeco $self
+     *
      * @return bool|mixed
      */
-    static public function clearAdminPriv(ZKTeco $self)
+    public static function clearAdminPriv(ZKTeco $self)
     {
         // ping to device
         Ping::run($self);
@@ -188,10 +191,11 @@ class User
 
     /**
      * @param ZKTeco $self
-     * @param integer $uid
+     * @param int    $uid
+     *
      * @return bool|mixed
      */
-    static public function remove(ZKTeco $self, $uid)
+    public static function remove(ZKTeco $self, $uid)
     {
         // ping to device
         Ping::run($self);
@@ -199,9 +203,9 @@ class User
         $self->_section = __METHOD__;
 
         $command = Util::CMD_DELETE_USER;
-        $byte1 = chr((int)($uid % 256));
-        $byte2 = chr((int)($uid >> 8));
-        $command_string = ($byte1 . $byte2);
+        $byte1 = chr((int) ($uid % 256));
+        $byte2 = chr((int) ($uid >> 8));
+        $command_string = ($byte1.$byte2);
 
         return $self->_command($command, $command_string);
     }

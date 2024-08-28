@@ -10,10 +10,11 @@ class Time
      * Set the time on the ZKTecoPhp device.
      *
      * @param ZKTeco $self The instance of the ZKTecoPhp class.
-     * @param string $t The time to set in the format "Y-m-d H:i:s".
+     * @param string $t    The time to set in the format "Y-m-d H:i:s".
+     *
      * @return bool|mixed Returns true if the time is set successfully, false otherwise.
      */
-    static public function set(ZKTeco $self, $t)
+    public static function set(ZKTeco $self, $t)
     {
         // ping to device
         Ping::run($self);
@@ -30,9 +31,10 @@ class Time
      * Get the current time from the ZKTecoPhp device.
      *
      * @param ZKTeco $self The instance of the ZKTecoPhp class.
+     *
      * @return bool|mixed Returns the current time if successful, false otherwise.
      */
-    static public function get(ZKTeco $self)
+    public static function get(ZKTeco $self)
     {
         // ping to device
         Ping::run($self);

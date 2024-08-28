@@ -13,10 +13,11 @@ class WorkCode
      * The response may contain information about each work code, depending on the device model.
      *
      * @param Zkteco $self An instance of the ZKTeco class.
+     *
      * @return bool|mixed The work code data retrieved from the device on success, false on failure.
-     *                   The exact format of the data depends on the device model.
+     *                    The exact format of the data depends on the device model.
      */
-    static public function get(Zkteco $self)
+    public static function get(Zkteco $self)
     {
         // ping to device
         Ping::run($self);

@@ -12,6 +12,7 @@ class Attendance
      * This method retrieves attendance records from the connected ZKTecoPhp device.
      *
      * @param ZKTeco $self An instance of the ZKTecoPhp class.
+     *
      * @return array An array of attendance records. Each record contains the following keys:
      *               - id: Badge ID (binary)
      *               - user_id: User ID
@@ -19,9 +20,8 @@ class Attendance
      *               - timestamp: Timestamp of the attendance record
      *               - type: Attendance type (might be device specific)
      */
-    static public function get(ZKTeco $self, $orderBy, $callback)
+    public static function get(ZKTeco $self, $orderBy, $callback)
     {
-
         // ping to device
         Ping::run($self);
 
@@ -58,12 +58,12 @@ class Attendance
                 $type = hexdec(Util::reverseHex(substr($u[1], 66, 2))); // Extract attendance type
 
                 $data = [ // Add record to the attendance array
-                    'uid' => $uid,
-                    'user_id' => $id,
-                    'state' => $state,
+                    'uid'         => $uid,
+                    'user_id'     => $id,
+                    'state'       => $state,
                     'record_time' => $timestamp,
-                    'type' => $type,
-                    'device_ip' => $self->_ip
+                    'type'        => $type,
+                    'device_ip'   => $self->_ip,
                 ];
 
                 if (is_callable($callback)) {
@@ -89,9 +89,10 @@ class Attendance
      * This method sends a command to the ZKTecoPhp device to clear all stored attendance records.
      *
      * @param ZKTeco $self An instance of the ZKTecoPhp class.
+     *
      * @return bool|mixed True on success, error message on failure.
      */
-    static public function clear(ZKTeco $self)
+    public static function clear(ZKTeco $self)
     {
         // ping to device
         Ping::run($self);
