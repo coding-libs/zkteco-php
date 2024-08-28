@@ -63,7 +63,7 @@ class Device
         $self->_section = __METHOD__;
 
         $command = Util::CMD_DISABLE_DEVICE;
-        $command_string = chr(0).chr(0);
+        $command_string = chr(0) . chr(0);
 
         return $self->_command($command, $command_string);
     }
@@ -83,7 +83,7 @@ class Device
         $self->_section = __METHOD__;
 
         $command = Util::CMD_POWEROFF;
-        $command_string = chr(0).chr(0);
+        $command_string = chr(0) . chr(0);
 
         return $self->_command($command, $command_string);
     }
@@ -103,7 +103,7 @@ class Device
         $self->_section = __METHOD__;
 
         $command = Util::CMD_RESTART;
-        $command_string = chr(0).chr(0);
+        $command_string = chr(0) . chr(0);
 
         return $self->_command($command, $command_string);
     }
@@ -123,7 +123,7 @@ class Device
         $self->_section = __METHOD__;
 
         $command = Util::CMD_SLEEP;
-        $command_string = chr(0).chr(0);
+        $command_string = chr(0) . chr(0);
 
         return $self->_command($command, $command_string);
     }
@@ -143,7 +143,7 @@ class Device
         $self->_section = __METHOD__;
 
         $command = Util::CMD_RESUME;
-        $command_string = chr(0).chr(0);
+        $command_string = chr(0) . chr(0);
 
         return $self->_command($command, $command_string);
     }
@@ -209,12 +209,12 @@ class Device
      * 55 -\n
      * Test the device's voice.
      *
-     * @param ZKTeco $self       The instance of the ZKTeco class.
-     * @param int    $voiceIndex
+     * @param ZKTeco $self The instance of the ZKTeco class.
+     * @param int $voiceIndex
      *
      * @return bool|mixed Returns true if the device's voice test is successful, false otherwise.
      */
-    public static function testVoice(ZKTeco $self, int $voiceIndex)
+    static public function testVoice(ZKTeco $self, int $voiceIndex)
     {
         // ping to device
         Ping::run($self);
@@ -250,7 +250,7 @@ class Device
      * Write text into the device's LCD screen.
      *
      * @param ZKTeco $self The instance of the ZKTeco class.
-     * @param int    $rank Line number of text.
+     * @param int $rank Line number of text.
      * @param string $text Text which will be displayed on the LCD screen.
      *
      * @return bool|mixed Returns true if the text is written to the LCD successfully, false otherwise.
@@ -263,10 +263,10 @@ class Device
         $self->_section = __METHOD__;
 
         $command = Util::CMD_WRITE_LCD;
-        $byte1 = chr((int) ($rank % 256));
-        $byte2 = chr((int) ($rank >> 8));
+        $byte1 = chr((int)($rank % 256));
+        $byte2 = chr((int)($rank >> 8));
         $byte3 = chr(0);
-        $command_string = $byte1.$byte2.$byte3.' '.$text;
+        $command_string = $byte1 . $byte2 . $byte3 . ' ' . $text;
 
         return $self->_command($command, $command_string);
     }
@@ -287,12 +287,12 @@ class Device
         $logCounts = unpack('I', substr($data, 32, 4))[1];
         $logCapacity = unpack('I', substr($data, 64, 4))[1];
 
-        return (object) [
-            'adminCounts'  => $adminCounts,
-            'userCounts'   => $userCounts,
+        return (object)[
+            'adminCounts' => $adminCounts,
+            'userCounts' => $userCounts,
             'userCapacity' => $userCapacity,
-            'logCounts'    => $logCounts,
-            'logCapacity'  => $logCapacity,
+            'logCounts' => $logCounts,
+            'logCapacity' => $logCapacity,
         ];
     }
 }
