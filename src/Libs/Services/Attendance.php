@@ -67,7 +67,9 @@ class Attendance
                 ];
 
                 if (is_callable($callback)) {
-                    $attendance[] = $callback($data);
+                    if($newData = $callback($data)){
+                        $attendance[] = $newData;
+                    }
                 } else {
                     $attendance[] = $data;
                 }
