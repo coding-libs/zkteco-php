@@ -59,7 +59,7 @@ class Attendance
 
                 $data = [ // Add record to the attendance array
                     'uid'         => $uid,
-                    'user_id'     => $id,
+                    'user_id'     => intval($id),
                     'state'       => $state,
                     'record_time' => $timestamp,
                     'type'        => $type,

@@ -111,7 +111,7 @@ class User
 
                 $data = [
                     'uid'       => $uid,
-                    'user_id'   => $userid,
+                    'user_id'   => intval($userid),
                     'name'      => $name,
                     'role'      => intval($role),
                     'password'  => $password,
