@@ -19,10 +19,13 @@ composer require coding-libs/zkteco-php
 ### Usage Example
 
 ```php
-use CodingLibs\ZktecoPhp\Libs\Zkteco;
 
+// Uncomment the line below if you are not using a PHP framework and need to manually load Composer dependencies.
+// require_once "vendor/autoload.php";
+
+use CodingLibs\ZktecoPhp\Libs\ZKTeco;
 $zktecoLib = new Zkteco('192.168.1.1');
-$zktecoLib->connect();
+$zkteco->connect();
 
 $zktecoLib->vendorName(); // "ZKTeco Inc.
 $zktecoLib->deviceName(); // "F22/ID
