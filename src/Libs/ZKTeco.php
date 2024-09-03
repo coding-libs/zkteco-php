@@ -369,9 +369,9 @@ class ZKTeco
      *
      * @return array An array containing attendance records.
      */
-    public function getAttendances($orderBy = 'asc', callable $callback = null): array
+    public function getAttendances(callable $callback = null): array
     {
-        return Attendance::get($this, $orderBy, $callback);
+        return Attendance::get($this, $callback);
     }
 
     /**

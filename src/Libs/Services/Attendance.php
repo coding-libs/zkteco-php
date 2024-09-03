@@ -20,7 +20,7 @@ class Attendance
      *               - timestamp: Timestamp of the attendance record
      *               - type: Attendance type (might be device specific)
      */
-    public static function get(ZKTeco $self, $orderBy, $callback)
+    public static function get(ZKTeco $self, $callback)
     {
         // ping to device
         Ping::run($self);
@@ -76,10 +76,6 @@ class Attendance
 
                 $attData = substr($attData, 40); // Move to the next attendance record data
             }
-        }
-
-        if ($orderBy != 'asc') {
-            rsort($attendance);
         }
 
         return $attendance; // Return the parsed attendance data
