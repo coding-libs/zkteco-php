@@ -57,7 +57,7 @@ class Attendance
 
                 $type = hexdec(Util::reverseHex(substr($u[1], 66, 2))); // Extract attendance type
 
-                $data = (object)[ // Add record to the attendance array
+                $data = [ // Add record to the attendance array
                     'uid'         => $uid,
                     'user_id'     => intval($id),
                     'state'       => $state,
