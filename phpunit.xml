@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true">
+    <testsuites>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">./tests/Unit</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+<!--        <env name="APP_ZKTECO_IP" value="192.168.86.250"/>-->
+        <env name="APP_ZKTECO_IP" value="103.91.228.102"/>
+        <env name="APP_ZKTECO_PORT" value="4370"/>
+    </php>
+</phpunit>

@@ -109,7 +109,7 @@ class User
                     $name = $userid;
                 }
 
-                $data = [
+                $data = (object)[
                     'uid'       => $uid,
                     'user_id'   => intval($userid),
                     'name'      => $name,
