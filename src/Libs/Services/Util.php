@@ -412,8 +412,9 @@ class Util
         if ($bytes) {
             $received = 0;
             $errors = 0;
+            $finalPacketReceived = false;
 
-            while ($bytes > $received) {
+            while ($bytes >= $received) {
                 $ret = @socket_recvfrom($self->_zkclient, $dataRec, 1032, 0, $self->_ip, $self->_port);
 
                 if ($ret === false) {
@@ -430,21 +431,26 @@ class Util
                         return '';
                     }
                 }
-
-                if ($first === false) {
-                    //The first 4 bytes don't seem to be related to the user
-                    $dataRec = substr($dataRec, 8);
+                // If packet is <= 8 bytes, it's the receipt that came in too early. A data packet is at least
+                if (strlen($dataRec) > 8) {
+                    if ($first === false) {
+                        //The first 4 bytes don't seem to be related to the user
+                        $dataRec = substr($dataRec, 8);
+                    }
+                    $data .= $dataRec;
+                    $received += strlen($dataRec);
+                } else {
+                    $finalPacketReceived = true;
                 }
-
-                $data .= $dataRec;
-                $received += strlen($dataRec);
-
                 unset($dataRec);
                 $first = false;
             }
 
-            //flush socket
-            @socket_recvfrom($self->_zkclient, $dataRec, 1024, 0, $self->_ip, $self->_port);
+            //flush socket only if final packet not received yet
+            if (!$finalPacketReceived) {
+                @socket_recvfrom($self->_zkclient, $dataRec, 1024, 0, $self->_ip, $self->_port);
+            }
+
             unset($dataRec);
         }
 
